@@ -25,6 +25,7 @@ Kita pakai SawitDB v3.0 yang punya fitur anti-korupsi data. Kita perlu inject da
 ```node init_lahan.js```
 
 ## 4. Nyalain Server SawitDB (Standby di port 7878)
+```node bin/sawit-server.js```
 # 🏎️ TERMINAL 2: Jalankan Backend Prabogo (Go)
 Backend ini bertugas jadi makelar/jembatan data dari Next.js menuju ke server SawitDB via koneksi TCP.
 
