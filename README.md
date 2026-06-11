@@ -1,5 +1,3 @@
-
-
 🌾 PANDUAN RUNNING & SETUP PROJECT (UAS PBW)
 Halo Kembar! Ini repo proyek UAS kita yang menggabungkan Next.js (Frontend) + Prabogo Framework (Backend Go) + SawitDB v3.0 (Database).
 
@@ -17,23 +15,24 @@ Buka 3 terminal terpisah di VS Code lo, lalu jalankan perintah berikut secara be
 Kita pakai SawitDB v3.0 yang punya fitur anti-korupsi data. Kita perlu inject data benih awal dulu baru nyalain servernya.
 
 Bash
-# 1. Masuk ke folder database
-cd database-sawit
+1. Masuk ke folder database
+```cd database-sawit```
 
 # 2. Install library asli SawitDB
-npm install
+```npm install```
 
 # 3. Jalankan skrip otomatis buat bikin Lahan & isi data awal
-node init_lahan.js
+```node init_lahan.js```
 
 # 4. Nyalain Server SawitDB (Standby di port 7878)
-node bin/sawit-server.js
 🏎️ TERMINAL 2: Jalankan Backend Prabogo (Go)
 Backend ini bertugas jadi makelar/jembatan data dari Next.js menuju ke server SawitDB via koneksi TCP.
 
+```node bin/sawit-server.js```
+
 Bash
 # 1. Masuk ke folder backend
-cd backend-prabogo
+'''cd backend-prabogo'''
 
 # 2. Download/bersihkan dependensi Go otomatis
 go mod tidy
