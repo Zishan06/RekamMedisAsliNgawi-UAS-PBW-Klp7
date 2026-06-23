@@ -1,0 +1,18 @@
+<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke-width="1.5">
+    <!-- Center diamond -->
+    <path d="M 30 20 L 40 30 L 30 40 L 20 30 Z" stroke="#ececec" fill="#efefef" fill-opacity="0.3"/>
+    
+    <!-- Outer shapes forming the modern geometric Kawung -->
+    <path d="M 30 0 L 38 15 L 30 30 L 22 15 Z" stroke="#e9e9e9" fill="#ececec" fill-opacity="0.2"/>
+    <path d="M 30 30 L 38 45 L 30 60 L 22 45 Z" stroke="#e9e9e9" fill="#ececec" fill-opacity="0.2"/>
+    <path d="M 0 30 L 15 22 L 30 30 L 15 38 Z" stroke="#e9e9e9" fill="#ececec" fill-opacity="0.2"/>
+    <path d="M 30 30 L 45 22 L 60 30 L 45 38 Z" stroke="#e9e9e9" fill="#ececec" fill-opacity="0.2"/>
+    
+    <!-- Decorative Center dot -->
+    <circle cx="30" cy="30" r="2.5" fill="#e9e9e9" stroke="none" />
+    
+    <!-- Accent corner crosses for symmetry -->
+    <path d="M 0 0 L 5 5 M 60 0 L 55 5 M 0 60 L 5 55 M 60 60 L 55 55" stroke="#efefef" stroke-width="1"/>
+  </g>
+</svg>

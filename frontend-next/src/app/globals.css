@@ -1,0 +1,438 @@
+/* ============================================================
+   REKAM MEDIS NGAWI — Global Design System
+   Tailwind CSS v4 (CSS-first config)
+   Tema: Samsung Health + Budaya Jawa Modern + Identitas Ngawi
+   ============================================================ */
+
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────
+   1. FONT — loaded via <link> in layout.tsx
+   (Google Fonts @import url() cannot appear after @import "tailwindcss"
+    because PostCSS expands Tailwind, pushing the url() after rules)
+───────────────────────────────────────────── */
+
+/* ─────────────────────────────────────────────
+   2. DESIGN TOKENS — CSS Custom Properties
+   Tailwind v4 theme via @theme directive
+───────────────────────────────────────────── */
+@theme {
+  /* ── Color Palette ─────────────────────── */
+
+  /* Primary Blue — Samsung Health inspired */
+  --color-primary-50:  #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+  --color-primary-950: #172554;
+
+  /* Earth / Terracotta — Identitas Jawa-Ngawi */
+  --color-earth-50:  #fdf5f0;
+  --color-earth-100: #fae8d8;
+  --color-earth-200: #f5cfb1;
+  --color-earth-300: #eeae81;
+  --color-earth-400: #e5854e;
+  --color-earth-500: #d96430;
+  --color-earth-600: #c24e22;
+  --color-earth-700: #a03c1e;
+  --color-earth-800: #82321f;
+  --color-earth-900: #6a2c1d;
+  --color-earth-950: #3a130b;
+
+  /* Surface / Background — Off White & Neutral */
+  --color-surface-50:  #fafafa;
+  --color-surface-100: #f5f5f5;
+  --color-surface-200: #eeeeee;
+  --color-surface-300: #e0e0e0;
+  --color-surface-card: #ffffff;
+  --color-surface-page: #f8f9fb;
+
+  /* Neutral Gray */
+  --color-neutral-50:  #f9fafb;
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-300: #d1d5db;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1f2937;
+  --color-neutral-900: #111827;
+
+  /* Semantic Colors */
+  --color-success-light: #d1fae5;
+  --color-success:       #059669;
+  --color-success-dark:  #064e3b;
+
+  --color-warning-light: #fef3c7;
+  --color-warning:       #d97706;
+  --color-warning-dark:  #78350f;
+
+  --color-danger-light:  #fee2e2;
+  --color-danger:        #dc2626;
+  --color-danger-dark:   #7f1d1d;
+
+  --color-info-light:    #dbeafe;
+  --color-info:          #2563eb;
+  --color-info-dark:     #1e3a8a;
+
+  /* ── Typography ────────────────────────── */
+  --font-sans:    "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-body:    "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    ui-monospace, "JetBrains Mono", "Fira Code", monospace;
+
+  /* Font Sizes */
+  --text-2xs: 0.625rem;   /* 10px */
+  --text-xs:  0.75rem;    /* 12px */
+  --text-sm:  0.875rem;   /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg:  1.125rem;   /* 18px */
+  --text-xl:  1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
+  --text-3xl: 1.875rem;   /* 30px */
+  --text-4xl: 2.25rem;    /* 36px */
+
+  /* Font Weights */
+  --font-weight-normal:   400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+  --font-weight-extrabold: 800;
+
+  /* ── Border Radius ─────────────────────── */
+  --radius-xs:  0.25rem;   /* 4px  */
+  --radius-sm:  0.375rem;  /* 6px  */
+  --radius-md:  0.5rem;    /* 8px  */
+  --radius-lg:  0.75rem;   /* 12px */
+  --radius-xl:  1rem;      /* 16px */
+  --radius-2xl: 1.25rem;   /* 20px */
+  --radius-3xl: 1.5rem;    /* 24px */
+  --radius-full: 9999px;
+
+  /* ── Shadow System ─────────────────────── */
+  --shadow-xs:  0 1px 2px 0 rgb(0 0 0 / 0.04);
+  --shadow-sm:  0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+  --shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.04);
+  --shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+  --shadow-xl:  0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04);
+  --shadow-card: 0 2px 8px 0 rgb(37 99 235 / 0.06), 0 1px 3px 0 rgb(0 0 0 / 0.06);
+  --shadow-card-hover: 0 8px 24px 0 rgb(37 99 235 / 0.10), 0 2px 8px 0 rgb(0 0 0 / 0.06);
+
+  /* ── Spacing ───────────────────────────── */
+  --spacing-sidebar: 260px;
+  --spacing-topbar:  64px;
+
+  /* ── Animation ─────────────────────────── */
+  --ease-smooth:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in-out:   cubic-bezier(0.4, 0, 0.6, 1);
+
+  --duration-fast:   150ms;
+  --duration-normal: 250ms;
+  --duration-slow:   400ms;
+}
+
+/* ─────────────────────────────────────────────
+   3. BASE / RESET LAYER
+───────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  .dark {
+    /* Samsung Health Dark Mode Colors */
+    --color-surface-page: #000000;
+    --color-surface-card: #1c1c1e;
+    
+    /* Invert Neutrals */
+    --color-neutral-50:  #1a1a1a;
+    --color-neutral-100: #262626;
+    --color-neutral-200: #404040;
+    --color-neutral-300: #525252;
+    --color-neutral-400: #737373;
+    --color-neutral-500: #a3a3a3;
+    --color-neutral-600: #d4d4d4;
+    --color-neutral-700: #e5e5e5;
+    --color-neutral-800: #f5f5f5;
+    --color-neutral-900: #ffffff;
+
+    /* Adjust badge/soft backgrounds for dark mode */
+    --color-primary-50:  #0f172a;
+    --color-primary-100: #1e293b;
+    --color-earth-50:  #271c19;
+    --color-earth-100: #3f2c25;
+    --color-success-light: #064e3b;
+    --color-success-dark:  #34d399;
+    --color-warning-light: #78350f;
+    --color-warning-dark:  #fbbf24;
+    --color-danger-light:  #7f1d1d;
+    --color-danger-dark:   #f87171;
+    --color-info-light:    #1e3a8a;
+    --color-info-dark:     #60a5fa;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: var(--color-neutral-800);
+    background-color: var(--color-surface-page);
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  }
+
+  /* ── Typography Hierarchy ────────────────── */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.25;
+    color: var(--color-neutral-900);
+    letter-spacing: -0.01em;
+  }
+
+  h1 { font-size: var(--text-3xl); font-weight: var(--font-weight-extrabold); }
+  h2 { font-size: var(--text-2xl); }
+  h3 { font-size: var(--text-xl); }
+  h4 { font-size: var(--text-lg); }
+  h5 { font-size: var(--text-base); }
+  h6 { font-size: var(--text-sm); }
+
+  p {
+    color: var(--color-neutral-600);
+    line-height: 1.7;
+  }
+
+  a {
+    color: var(--color-primary-600);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-smooth);
+  }
+  a:hover { color: var(--color-primary-700); }
+
+  /* ── Form Elements Reset ────────────────── */
+  input, textarea, select, button {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  /* ── Scrollbar (subtle, professional) ────── */
+  ::-webkit-scrollbar        { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track  { background: transparent; }
+  ::-webkit-scrollbar-thumb  {
+    background: var(--color-neutral-300);
+    border-radius: var(--radius-full);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-neutral-400); }
+
+  /* ── Selection ────────────────────────────── */
+  ::selection {
+    background-color: var(--color-primary-100);
+    color: var(--color-primary-900);
+  }
+}
+
+/* ─────────────────────────────────────────────
+   4. COMPONENT UTILITIES
+───────────────────────────────────────────── */
+@layer components {
+  /* ── Card ───────────────────────────────── */
+  .card {
+    background: var(--color-surface-card);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--color-neutral-200);
+    padding: 1.5rem;
+    transition:
+      box-shadow var(--duration-normal) var(--ease-smooth),
+      transform  var(--duration-normal) var(--ease-smooth);
+  }
+  .card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-1px);
+  }
+
+  /* ── Badge ──────────────────────────────── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    font-family: var(--font-sans);
+    letter-spacing: 0.01em;
+  }
+  .badge-primary {
+    background: var(--color-primary-100);
+    color: var(--color-primary-700);
+  }
+  .badge-earth {
+    background: var(--color-earth-100);
+    color: var(--color-earth-700);
+  }
+  .badge-success {
+    background: var(--color-success-light);
+    color: var(--color-success-dark);
+  }
+  .badge-warning {
+    background: var(--color-warning-light);
+    color: var(--color-warning-dark);
+  }
+  .badge-danger {
+    background: var(--color-danger-light);
+    color: var(--color-danger-dark);
+  }
+
+  /* ── Divider ─────────────────────────────── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--color-neutral-200);
+    margin: 1rem 0;
+  }
+
+  /* ── Section Label ──────────────────────── */
+  .section-label {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-neutral-400);
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   5. UTILITY LAYER — Micro Animations & Helpers
+───────────────────────────────────────────── */
+@layer utilities {
+  /* Smooth fade in */
+  .animate-fade-in {
+    animation: fadeIn var(--duration-normal) var(--ease-smooth) both;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Bell shake — for new notification */
+  .animate-bell-shake {
+    animation: bellShake 0.6s var(--ease-bounce) both;
+  }
+  @keyframes bellShake {
+    0%   { transform: rotate(0deg); }
+    15%  { transform: rotate(12deg); }
+    30%  { transform: rotate(-10deg); }
+    45%  { transform: rotate(8deg); }
+    60%  { transform: rotate(-6deg); }
+    75%  { transform: rotate(4deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  /* Scale in for badge */
+  .animate-scale-in {
+    animation: scaleIn 0.25s var(--ease-bounce) both;
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  /* Slide in from left */
+  .animate-slide-in-left {
+    animation: slideInLeft var(--duration-slow) var(--ease-smooth) both;
+  }
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-16px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Pulse dot (for status indicators) */
+  .animate-pulse-dot {
+    animation: pulseDot 2s ease-in-out infinite;
+  }
+  @keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  /* Shimmer skeleton loading */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-neutral-100) 0%,
+      var(--color-neutral-200) 50%,
+      var(--color-neutral-100) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+    border-radius: var(--radius-md);
+  }
+  @keyframes shimmer {
+    from { background-position: 200% 0; }
+    to   { background-position: -200% 0; }
+  }
+
+  /* Glass morphism */
+  .glass {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
+  /* Gradient text */
+  .text-gradient-primary {
+    background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-400));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .text-gradient-earth {
+    background: linear-gradient(135deg, var(--color-earth-600), var(--color-earth-400));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Focus ring utility */
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* No scrollbar */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Truncate multi-line */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
