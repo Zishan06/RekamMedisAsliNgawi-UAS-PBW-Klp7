@@ -1,0 +1,32 @@
+# === DATABASE LAHAN EXCLUSIONS ===
+# Kita tidak perlu upload file database utama dan log CDC biar data lokal kalian gak bentrok
+database-sawit/data/*.sawit
+database-sawit/data/logs/
+
+# === FRONTEND (NODE.JS / NEXT.JS) EXCLUSIONS ===
+# Ini dia tersangka utama yang bikin size jadi 300MB+
+node_modules/
+.next/
+out/
+build/
+.pnpm-debug.log*
+yarn-error.log*
+
+# === BACKEND (GO / PRABOGO) EXCLUSIONS ===
+# Mengabaikan file binary hasil compile compile Go
+backend-prabogo/backend-prabogo
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# === ENV VARIABLES ===
+# Jangan upload file credential / rahasia ke publik
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
