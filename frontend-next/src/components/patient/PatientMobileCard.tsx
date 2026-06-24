@@ -104,9 +104,9 @@ function PatientCardItem({ pasien, index }: { pasien: Pasien; index: number }) {
           <span>
             Kunjungan:{" "}
             <span className="font-medium text-neutral-700">
-              {format(parseISO(pasien.kunjunganTerakhir), "d MMM yyyy", {
+              {pasien.kunjunganTerakhir !== "—" ? format(parseISO(pasien.kunjunganTerakhir), "d MMM yyyy", {
                 locale: localeId,
-              })}
+              }) : "—"}
             </span>
             <span className="mx-1 text-neutral-300">·</span>
             {pasien.poli}

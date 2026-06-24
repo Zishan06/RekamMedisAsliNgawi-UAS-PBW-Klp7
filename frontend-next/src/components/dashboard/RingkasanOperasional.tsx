@@ -19,7 +19,7 @@ export function RingkasanOperasional({ items }: { items: RingkasanItem[] }) {
         <div 
           className="absolute -left-4 -top-4 w-20 h-20 pointer-events-none opacity-[0.03]"
           style={{ 
-            backgroundImage: "url('/patterns/gemini-pattern.svg')", 
+            backgroundImage: "url('/patterns/bg-pattern.svg')", 
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}

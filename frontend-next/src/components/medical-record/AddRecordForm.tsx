@@ -199,13 +199,35 @@ export function AddRecordForm({ pasienId, pasienNama, pasienNoRM }: AddRecordFor
   });
 
   const onSubmit = async (data: RekamMedisFormData) => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log("Form submitted:", data);
-    setIsSubmitted(true);
-    toast.success("Rekam medis berhasil disimpan!", {
-      description: `Kunjungan ${pasienNama} pada ${data.tanggal} telah dicatat.`,
-    });
+    try {
+      // API call sesungguhnya
+      // Hardcode dokter_id ke 1 karena form saat ini cuma punya string nama, bisa diupgrade ke depan
+      await fetch("http://localhost:8080/api/rekam-medis", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          pasien_id: parseInt(pasienId),
+          dokter_id: 1, 
+          tanggal: data.tanggal,
+          poli: data.poli,
+          diagnosa: data.diagnosa,
+          icd10: data.icdCode,
+          anamnesis: `S: ${data.subjektif}\nO: ${data.objektif}`,
+          pemeriksaan: `TD: ${data.tekananDarah}, Suhu: ${data.suhu}, BB: ${data.beratBadan}`,
+          obat: data.resep,
+          tindakan: data.plan,
+          status: data.status,
+        }),
+      });
+
+      console.log("Form submitted to API:", data);
+      setIsSubmitted(true);
+      toast.success("Rekam medis berhasil disimpan!", {
+        description: `Kunjungan ${pasienNama} pada ${data.tanggal} telah dicatat.`,
+      });
+    } catch (err) {
+      toast.error("Gagal menyimpan rekam medis");
+    }
   };
 
   // Success state

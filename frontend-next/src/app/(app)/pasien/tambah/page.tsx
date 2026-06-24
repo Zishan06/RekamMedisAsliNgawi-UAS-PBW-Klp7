@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,8 +23,8 @@ import {
   Heart,
 } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { usePatientStore } from "@/lib/patient-store";
-import type { NewPatientInput } from "@/lib/patient-store";
+import { pasienApi } from "@/lib/api";
+import type { CreatePasienPayload } from "@/lib/api";
 
 /* ─────────────────────────────────────────────
    Zod Schema
@@ -171,10 +170,7 @@ function SectionHeader({
    Tambah Pasien Form Page
 ───────────────────────────────────────────── */
 export default function TambahPasienPage() {
-  const router = useRouter();
-  const { addPatient } = usePatientStore();
   const [isSuccess, setIsSuccess] = useState(false);
-  const [newPatientId, setNewPatientId] = useState<string>("");
 
   const {
     register,
@@ -190,29 +186,34 @@ export default function TambahPasienPage() {
   });
 
   const onSubmit = async (data: TambahPasienFormData) => {
-    // Simulate async processing
-    await new Promise((resolve) => setTimeout(resolve, 1200));
+    // Generate no_rm dengan format RM-YYYY-<timestamp>
+    const year = new Date().getFullYear();
+    const seq = String(Date.now()).slice(-4);
+    const noRM = `RM-${year}-${seq}`;
 
-    const input: NewPatientInput = {
-      namaLengkap:            data.namaLengkap,
-      nik:                    data.nik,
-      tanggalLahir:           data.tanggalLahir,
-      jenisKelamin:           data.jenisKelamin,
-      golonganDarah:          data.golonganDarah,
-      noTelp:                 data.noTelp,
-      alamat:                 data.alamat,
-      kontakDaruratNama:      data.kontakDaruratNama,
-      kontakDaruratHubungan:  data.kontakDaruratHubungan,
-      kontakDaruratNoTelp:    data.kontakDaruratNoTelp,
+    const payload: CreatePasienPayload = {
+      no_rm: noRM,
+      nama: data.namaLengkap,
+      nik: data.nik,
+      jk: data.jenisKelamin === "Laki-laki" ? "L" : "P",
+      tgl_lahir: data.tanggalLahir,
+      gol_darah: data.golonganDarah,
+      no_hp: data.noTelp,
+      alamat: data.alamat,
+      status: "Aktif",
     };
 
-    const newId = addPatient(input);
-    setNewPatientId(newId);
-    setIsSuccess(true);
-
-    toast.success("Pasien berhasil didaftarkan!", {
-      description: `${data.namaLengkap} telah ditambahkan ke sistem.`,
-    });
+    try {
+      await pasienApi.create(payload);
+      setIsSuccess(true);
+      toast.success("Pasien berhasil didaftarkan!", {
+        description: `${data.namaLengkap} telah ditambahkan ke sistem.`,
+      });
+    } catch (err) {
+      const msg =
+        err instanceof Error ? err.message : "Gagal menyimpan data pasien";
+      toast.error("Gagal mendaftarkan pasien", { description: msg });
+    }
   };
 
   /* ── Success Screen ───────────────────── */
@@ -238,28 +239,19 @@ export default function TambahPasienPage() {
           Pasien Berhasil Didaftarkan!
         </h2>
         <p className="text-neutral-500 max-w-sm mb-8">
-          Data pasien telah tersimpan dan langsung muncul pada daftar pasien.
+          Data pasien telah tersimpan di database dan akan muncul di daftar pasien.
         </p>
 
         <div className="flex flex-wrap gap-3 justify-center">
           <Link
-            href={`/pasien/${newPatientId}`}
+            href="/pasien"
             className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white"
             style={{ background: "linear-gradient(135deg, var(--color-primary-600), var(--color-primary-500))" }}
           >
-            Lihat Detail Pasien
-          </Link>
-          <Link
-            href="/pasien"
-            className="px-6 py-2.5 rounded-xl text-sm font-semibold bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition-colors"
-          >
-            Kembali ke Daftar
+            Lihat Daftar Pasien
           </Link>
           <button
-            onClick={() => {
-              setIsSuccess(false);
-              setNewPatientId("");
-            }}
+            onClick={() => setIsSuccess(false)}
             className="px-6 py-2.5 rounded-xl text-sm font-semibold border border-primary-200 text-primary-700 hover:bg-primary-50 transition-colors"
           >
             Tambah Pasien Lain

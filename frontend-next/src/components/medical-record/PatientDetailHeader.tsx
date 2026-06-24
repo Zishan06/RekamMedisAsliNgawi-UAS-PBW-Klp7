@@ -90,7 +90,7 @@ export function PatientDetailHeader({ pasien }: PatientDetailHeaderProps) {
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: "url('/patterns/gemini-pattern.svg')",
+            backgroundImage: "url('/patterns/bg-pattern.svg')",
             backgroundSize: "cover",
             backgroundPosition: "right center",
             opacity: 0.10,

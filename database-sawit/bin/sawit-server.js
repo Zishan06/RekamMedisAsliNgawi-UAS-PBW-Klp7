@@ -6,8 +6,11 @@ const path = require('path');
 require('dotenv').config(); // Membaca file .env
 
 const port = process.env.PORT || 7878;
-const dbPath = path.join(__dirname, '../data/pasar_sawit.sawit');
+const dbPath = path.join(__dirname, '../data/rekam_medis_ngawi.sawit');
 
-// Menjalankan server database pada port 7878
-const server = new SawitServer(dbPath, { port: parseInt(port) });
+// Menjalankan server database pada port 7878 dengan menunjuk folder data yang benar
+const server = new SawitServer({ 
+    port: parseInt(port),
+    dataDir: path.join(__dirname, '../data')
+});
 server.start();

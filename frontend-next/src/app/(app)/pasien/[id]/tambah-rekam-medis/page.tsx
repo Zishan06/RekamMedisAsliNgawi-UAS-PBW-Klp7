@@ -1,18 +1,56 @@
 "use client";
 
-import { useMemo } from "react";
-import { use } from "react";
+import { use, useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { FilePlus, ArrowLeft, Shield } from "lucide-react";
-import { DAFTAR_PASIEN } from "@/components/patient/data";
-import { getPatientDetail } from "@/components/medical-record";
+import { FilePlus, ArrowLeft, Shield, Loader2, ServerCrash } from "lucide-react";
+import { pasienApi, hitungUmur, mapJenisKelamin, type BackendPasien } from "@/lib/api";
 import { AddRecordForm } from "@/components/medical-record/AddRecordForm";
+
+/* ─────────────────────────────────────────────
+   Loading State
+───────────────────────────────────────────── */
+function LoadingState() {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[50vh] gap-4">
+      <Loader2 size={40} className="text-primary-400 animate-spin" />
+      <p className="text-sm text-neutral-500">Memuat data pasien…</p>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   Error State
+───────────────────────────────────────────── */
+function ErrorState({ message, onRetry }: { message: string; onRetry: () => void }) {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[50vh] gap-4 text-center">
+      <div className="w-14 h-14 rounded-full bg-danger-light flex items-center justify-center">
+        <ServerCrash size={28} className="text-danger" />
+      </div>
+      <div>
+        <p className="font-semibold text-neutral-800">Gagal memuat data pasien</p>
+        <p className="text-sm text-neutral-500 mt-1 max-w-xs">{message}</p>
+      </div>
+      <button
+        onClick={onRetry}
+        className="px-4 py-2 rounded-xl text-sm font-semibold text-white"
+        style={{
+          background:
+            "linear-gradient(135deg, var(--color-primary-600), var(--color-primary-500))",
+        }}
+      >
+        Coba Lagi
+      </button>
+    </div>
+  );
+}
 
 /* ─────────────────────────────────────────────
    Tambah Rekam Medis Page
    Route: /pasien/[id]/tambah-rekam-medis
+   Mengambil data pasien dari API real.
 ───────────────────────────────────────────── */
 export default function TambahRekamMedisPage({
   params,
@@ -21,19 +59,46 @@ export default function TambahRekamMedisPage({
 }) {
   const { id } = use(params);
 
-  const basePasien = useMemo(
-    () => DAFTAR_PASIEN.find((p) => p.id === id),
-    [id]
-  );
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [pasien, setPasien] = useState<BackendPasien | null>(null);
+  const [notFoundFlag, setNotFoundFlag] = useState(false);
 
-  if (!basePasien) {
+  const fetchPasien = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { pasien: data } = await pasienApi.getById(id);
+      if (!data) {
+        setNotFoundFlag(true);
+        return;
+      }
+      setPasien(data);
+    } catch (err) {
+      const msg =
+        err instanceof Error ? err.message : "Terjadi kesalahan tidak dikenal";
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    fetchPasien();
+  }, [fetchPasien]);
+
+  if (notFoundFlag) {
     notFound();
   }
 
-  const pasienDetail = useMemo(
-    () => getPatientDetail(id, basePasien),
-    [id, basePasien]
-  );
+  if (loading) return <LoadingState />;
+  if (error) return <ErrorState message={error} onRetry={fetchPasien} />;
+  if (!pasien) return <LoadingState />;
+
+  const namaDisplay = pasien.nama;
+  const noRMDisplay = pasien.no_rm;
+  const poliDisplay = "Poli Umum";
+  const statusDisplay = pasien.status;
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -80,12 +145,12 @@ export default function TambahRekamMedisPage({
               </p>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-white font-bold text-base">
-                  {pasienDetail.nama}
+                  {namaDisplay}
                 </span>
                 <span className="text-primary-300 text-xs">·</span>
                 <div className="flex items-center gap-1 text-primary-300 text-xs">
                   <Shield size={11} />
-                  <span className="font-mono">{pasienDetail.noRM}</span>
+                  <span className="font-mono">{noRMDisplay}</span>
                 </div>
               </div>
             </div>
@@ -97,12 +162,12 @@ export default function TambahRekamMedisPage({
             >
               <div className="text-right">
                 <p className="text-white/60 text-xs uppercase tracking-wider">Poli</p>
-                <p className="text-white text-sm font-semibold">{pasienDetail.poli}</p>
+                <p className="text-white text-sm font-semibold">{poliDisplay}</p>
               </div>
               <div className="w-px h-8 bg-white/20" />
               <div className="text-right">
                 <p className="text-white/60 text-xs uppercase tracking-wider">Status</p>
-                <p className="text-white text-sm font-semibold">{pasienDetail.status}</p>
+                <p className="text-white text-sm font-semibold">{statusDisplay}</p>
               </div>
             </div>
           </div>
@@ -112,8 +177,8 @@ export default function TambahRekamMedisPage({
       {/* ── Form ──────────────────────────── */}
       <AddRecordForm
         pasienId={id}
-        pasienNama={pasienDetail.nama}
-        pasienNoRM={pasienDetail.noRM}
+        pasienNama={namaDisplay}
+        pasienNoRM={noRMDisplay}
       />
     </div>
   );

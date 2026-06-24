@@ -49,7 +49,7 @@ export function AppShell({ children }: AppShellProps) {
         <div 
           className="absolute inset-0 pointer-events-none z-0"
           style={{ 
-            backgroundImage: "url('/patterns/gemini-pattern.svg')", 
+            backgroundImage: "url('/patterns/bg-pattern.svg')", 
             backgroundSize: 'cover',
             backgroundPosition: 'center top',
             opacity: 0.3,

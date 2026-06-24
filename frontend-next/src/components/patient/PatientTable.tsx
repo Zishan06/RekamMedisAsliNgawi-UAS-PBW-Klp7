@@ -384,9 +384,9 @@ export function PatientTable({
                     <td className="px-4 py-4 whitespace-nowrap">
                       <div>
                         <p className="text-sm text-neutral-700 font-medium">
-                          {format(parseISO(p.kunjunganTerakhir), "d MMM yyyy", {
+                          {p.kunjunganTerakhir !== "—" ? format(parseISO(p.kunjunganTerakhir), "d MMM yyyy", {
                             locale: localeId,
-                          })}
+                          }) : "—"}
                         </p>
                         <p className="text-xs text-neutral-400 mt-0.5">
                           {p.poli}
